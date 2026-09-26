@@ -4,128 +4,172 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#17120c">
-<title>Albion Crafting Station V3</title>
+<title>Albion Crafting Station V5</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#0e0c09;color:#eee7d8;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
-body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 50% -10%,#49351c55,transparent 42%)}
-.app{max-width:1150px;margin:auto;padding:14px}.top{border:1px solid #5c4525;background:linear-gradient(135deg,#21180e,#120f0b);border-radius:18px;padding:18px;box-shadow:0 10px 35px #0008}
-.brand{display:flex;gap:12px;align-items:center}.logo{font-size:38px}.eyebrow{font-size:11px;color:#a9956f;letter-spacing:2px;font-weight:900}.brand h1{font-size:22px;margin:2px 0;color:#f2d38c}.brand p{margin:0;color:#8f8573;font-size:12px}
-.tabs{display:flex;gap:7px;overflow:auto;padding:10px 0;position:sticky;top:0;z-index:5;background:#0e0c09ee;backdrop-filter:blur(10px)}
-.tab{white-space:nowrap;background:#19140e;color:#bdb19b;border:1px solid #40321f;border-radius:10px;padding:10px 13px;font-weight:800;cursor:pointer}.tab.active{background:#5b411d;color:#ffe5a4;border-color:#a57b36}
-.panel{display:none}.panel.active{display:block}
-.card{background:linear-gradient(145deg,#1a1510,#120f0c);border:1px solid #3d301f;border-radius:14px;padding:16px;margin-bottom:14px}
+:root{--gold:#e7b355;--gold2:#f4cf7e;--wine:#9c2f45;--wine2:#c43f56;--violet:#7c4fb0;--violet2:#a179d9;--bg:#100c14;--panel:#1b1420;--panel2:#140f18;--border:#392c46;--border2:#4a3959;--text:#f1ecf3;--muted:#a99cb8}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 15% -10%,#7c4fb033,transparent 40%),radial-gradient(circle at 85% 0%,#9c2f4530,transparent 40%);animation:glow 9s ease-in-out infinite}
+@keyframes glow{0%,100%{opacity:.7}50%{opacity:1}}
+.app{max-width:1150px;margin:auto;padding:14px}
+.top{position:relative;overflow:hidden;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid var(--border2);background:linear-gradient(135deg,#231a2c,#140f18);border-radius:18px;padding:20px 18px 18px;box-shadow:0 10px 35px #0008}
+.topstrip{position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--gold),var(--wine2),var(--violet),var(--gold));background-size:300% 100%;animation:strip 7s linear infinite}
+@keyframes strip{0%{background-position:0% 0}100%{background-position:300% 0}}
+.shine{position:absolute;top:0;bottom:0;width:35%;left:-40%;background:linear-gradient(75deg,transparent,#ffffff14,transparent);animation:shine 7s ease-in-out infinite;pointer-events:none}
+@keyframes shine{0%,60%{left:-40%}100%{left:120%}}
+.brand{display:flex;gap:12px;align-items:center}.logo{font-size:38px;display:inline-block;animation:sway 3.4s ease-in-out infinite;transform-origin:70% 90%}
+@keyframes sway{0%,100%{transform:rotate(-7deg)}50%{transform:rotate(7deg)}}
+.eyebrow{font-size:11px;color:var(--violet2);letter-spacing:2px;font-weight:900}.brand h1{font-size:22px;margin:2px 0;color:var(--gold2)}.brand p{margin:0;color:var(--muted);font-size:12px}
+.langbtn{white-space:nowrap;flex-shrink:0}
+.tabs{display:flex;gap:7px;overflow:auto;padding:10px 0;position:sticky;top:0;z-index:5;background:#100c14ee;backdrop-filter:blur(10px)}
+.tab{white-space:nowrap;background:#1a1420;color:#c6b9d4;border:1px solid var(--border);border-radius:10px;padding:10px 13px;font-weight:800;cursor:pointer;transition:background .2s ease,border-color .2s ease,color .2s ease,box-shadow .2s ease,transform .15s ease}
+.tab:hover{border-color:var(--violet);transform:translateY(-1px)}
+.tab.active{background:linear-gradient(120deg,var(--wine),#7a2540);color:var(--gold2);border-color:var(--gold);box-shadow:0 4px 14px #9c2f4555}
+.panel{display:none}.panel.active{display:block;animation:fadeIn .35s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.card{background:linear-gradient(145deg,var(--panel),var(--panel2));border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:14px;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
+.card:hover{transform:translateY(-2px);box-shadow:0 14px 30px #0009;border-color:var(--violet)}
 .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-label{display:flex;flex-direction:column;gap:6px;color:#aaa08f;font-size:12px;font-weight:800;margin-bottom:10px}
-input,select{width:100%;background:#0d0b08;color:#f3ead9;border:1px solid #433521;border-radius:9px;padding:11px;outline:none}input:focus,select:focus{border-color:#9d7432}
-.btn{border:1px solid #5a4628;background:#211a12;color:#e8d7b4;border-radius:9px;padding:9px 12px;cursor:pointer;font-weight:800}.btn:hover{border-color:#a87b34}.primary{background:#6b4b1e;color:#fff0c5}.danger{border-color:#63352e;color:#e6a49b}
-.head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.head h2{margin:2px 0 4px;color:#f0d18d}.muted{color:#8f8676;font-size:13px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px}.stat{background:#15110c;border:1px solid #3b2e1d;border-radius:11px;padding:13px}.stat span{display:block;color:#8e8574;font-size:11px}.stat strong{display:block;margin-top:5px;color:#f2d18b;font-size:20px}
+label{display:flex;flex-direction:column;gap:6px;color:var(--muted);font-size:12px;font-weight:800;margin-bottom:10px}
+input,select{width:100%;background:#0e0a12;color:var(--text);border:1px solid var(--border);border-radius:9px;padding:11px;outline:none;transition:border-color .2s ease,box-shadow .2s ease}
+input:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 3px #7c4fb040}
+input::placeholder{color:#8f8199;opacity:1}
+.btn{border:1px solid var(--border2);background:#1e1725;color:#e7dcef;border-radius:9px;padding:9px 12px;cursor:pointer;font-weight:800;transition:transform .15s ease,box-shadow .15s ease,border-color .2s ease}
+.btn:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 6px 16px #0007}.btn:active{transform:translateY(0);box-shadow:none}
+.primary{background:linear-gradient(135deg,var(--gold),#b9863a);color:#241705;border-color:var(--gold)}.danger{border-color:var(--wine2);color:#f0a3ae}
+.head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.head h2{margin:2px 0 4px;color:var(--gold2)}.muted{color:var(--muted);font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:14px}.stat{background:#150f19;border:1px solid var(--border);border-radius:11px;padding:13px;transition:border-color .2s ease,transform .2s ease}.stat:hover{border-color:var(--violet);transform:translateY(-2px)}.stat span{display:block;color:var(--muted);font-size:11px}.stat strong{display:block;margin-top:5px;color:var(--gold2);font-size:20px}
+.matcols{display:grid;grid-template-columns:1.4fr .65fr .8fr auto;gap:7px;color:var(--violet2);font-size:11px;font-weight:800;padding:0 2px 5px}
+.matcols span:last-child{width:32px}
 .material{display:grid;grid-template-columns:1.4fr .65fr .8fr auto;gap:7px;align-items:end;margin-bottom:8px}
-.actions{display:flex;gap:8px;flex-wrap:wrap}.resultline{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #ffffff0b}.resultline:last-child{border:0}.profit{font-size:25px;color:#f2cf7c}
-.notice{background:#4a35151c;border:1px solid #76582b55;color:#bdb19c;padding:12px;border-radius:10px;line-height:1.6}
-.table{width:100%;border-collapse:collapse;min-width:650px}.table th,.table td{padding:9px;border-bottom:1px solid #ffffff0b;text-align:right}.table th{color:#bca982;font-size:12px}.tablewrap{overflow:auto}
-.recipe{display:flex;justify-content:space-between;gap:8px;align-items:center;border:1px solid #332819;padding:11px;border-radius:10px;margin-bottom:7px}
-.small{font-size:11px;color:#817866}.toolgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.tool h3{margin-top:0;color:#e9d19a}
-canvas{width:100%;height:230px;background:#0c0a07;border-radius:10px;border:1px solid #2f2518}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.resultline{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid #ffffff0b}.resultline:last-child{border:0}.profit{font-size:25px;color:var(--gold2)}
+.notice{background:linear-gradient(120deg,#9c2f4522,#7c4fb022);border:1px solid var(--border2);color:#d7c9e2;padding:12px;border-radius:10px;line-height:1.7}
+.table{width:100%;border-collapse:collapse;min-width:650px}.table th,.table td{padding:9px;border-bottom:1px solid #ffffff0b;text-align:start}.table th{color:var(--violet2);font-size:12px}.tablewrap{overflow:auto}
+.recipe{display:flex;justify-content:space-between;gap:8px;align-items:center;border:1px solid var(--border);padding:11px;border-radius:10px;margin-bottom:7px;transition:border-color .2s ease,transform .2s ease}.recipe:hover{border-color:var(--violet);transform:translateY(-1px)}
+.small{font-size:11px;color:var(--muted)}.toolgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.tool h3{margin-top:0;color:var(--gold2)}
+canvas{width:100%;height:230px;background:#0c0910;border-radius:10px;border:1px solid var(--border)}
 .good{color:#7bd49c}.bad{color:#e58f83}
-@media(max-width:760px){.grid,.grid3,.toolgrid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.material{grid-template-columns:1fr 1fr}.material .m-name{grid-column:1/-1}.head{flex-direction:column}}
+.citygrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.citycard{border:1px solid var(--border);border-radius:12px;padding:14px;background:linear-gradient(150deg,#1c1522,#130e17);position:relative;overflow:hidden;transition:border-color .2s ease,transform .2s ease}
+.citycard:hover{border-color:var(--gold);transform:translateY(-2px)}
+.citycard:before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:linear-gradient(90deg,var(--gold),var(--wine2),var(--violet))}
+.citycard h4{margin:6px 0 8px;color:var(--gold2);font-size:15px}
+.citytag{display:inline-block;font-size:10px;font-weight:900;letter-spacing:1px;color:var(--violet2);background:#7c4fb022;border:1px solid var(--border2);border-radius:6px;padding:2px 7px;margin-bottom:6px}
+.citycard .cline{font-size:12.5px;color:#dcd2e6;margin:4px 0}
+.citycard .cline b{color:var(--gold2)}
+@media(max-width:760px){.grid,.grid3,.toolgrid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.material,.matcols{grid-template-columns:1fr 1fr}.material .m-name{grid-column:1/-1}.matcols span:first-child{grid-column:1/-1}.head{flex-direction:column}}
 @media(max-width:430px){.app{padding:8px}.stats{grid-template-columns:1fr 1fr}.tab{padding:9px 10px;font-size:12px}}
 </style>
 </head>
 <body>
 <div class="app">
 <header class="top">
- <div class="brand"><div class="logo">⚒️</div><div><div class="eyebrow">ALBION CRAFTING STATION · V3</div><h1>Profit Workbench</h1><p>حاسبة تصنيع وإدارة أسعار وأرباح — تعمل محليًا على هاتفك</p></div></div>
+ <div class="topstrip"></div>
+ <div class="shine"></div>
+ <div class="brand"><div class="logo">⚒️</div><div><div class="eyebrow">ALBION CRAFTING STATION · V5</div><h1>Profit Workbench</h1><p data-i18n="brandDesc">حاسبة تصنيع وإدارة أسعار وأرباح — تعمل محليًا على هاتفك</p></div></div>
+ <button class="btn langbtn" id="langBtn">English</button>
 </header>
 
 <nav class="tabs" id="tabs">
-<button class="tab active" data-tab="craft">⚒ التصنيع</button>
-<button class="tab" data-tab="recipes">📜 الوصفات</button>
+<button class="tab active" data-tab="craft"><span data-i18n="tabCraft">⚒ التصنيع</span></button>
+<button class="tab" data-tab="recipes"><span data-i18n="tabRecipes">📜 الوصفات</span></button>
 <button class="tab" data-tab="focus">🔥 Focus</button>
-<button class="tab" data-tab="compare">⚖️ شراء/تصنيع</button>
-<button class="tab" data-tab="ledger">📒 الأرباح</button>
-<button class="tab" data-tab="prices">📊 الأسعار</button>
-<button class="tab" data-tab="tools">🧰 الأدوات</button>
+<button class="tab" data-tab="compare"><span data-i18n="tabCompare">⚖️ شراء/تصنيع</span></button>
+<button class="tab" data-tab="ledger"><span data-i18n="tabLedger">📒 الأرباح</span></button>
+<button class="tab" data-tab="prices"><span data-i18n="tabPrices">📊 الأسعار</span></button>
+<button class="tab" data-tab="tools"><span data-i18n="tabTools">🧰 الأدوات</span></button>
+<button class="tab" data-tab="cities"><span data-i18n="tabCities">🏰 بونص المدن</span></button>
 </nav>
 
 <main>
 <section class="panel active" id="craft">
  <div class="grid">
   <div class="card">
-   <div class="head"><div><div class="eyebrow">CRAFTING CALCULATOR</div><h2>حسبة التصنيع</h2></div><button class="btn" id="resetCraft">إعادة ضبط</button></div>
+   <div class="head"><div><div class="eyebrow">CRAFTING CALCULATOR</div><h2 data-i18n="craftTitle">حسبة التصنيع</h2></div><button class="btn" id="resetCraft" data-i18n="resetBtn">إعادة ضبط</button></div>
    <div class="grid3">
-    <label>اسم المنتج<input id="product" list="productList" placeholder="مثال: T5 Bag"></label>
-    <label>عدد القطع<input id="batch" type="number" min="1" value="1"></label>
-    <label>سعر البيع / قطعة<input id="sell" type="number" min="0" step="0.01" value="0"></label>
+    <label><span data-i18n="lblProduct">اسم المنتج</span><input id="product" list="productList" placeholder="مثال: T5 Bag"></label>
+    <label><span data-i18n="lblBatch">عدد القطع</span><input id="batch" type="number" min="1" value="1"></label>
+    <label><span data-i18n="lblSell">سعر البيع / قطعة</span><input id="sell" type="number" min="0" step="0.01" value="0"></label>
     <label>Return Rate %<input id="rrr" type="number" min="0" max="100" step="0.1" value="15.3"></label>
     <label>Crafting Fee / قطعة<input id="fee" type="number" min="0" step="0.01" value="0"></label>
     <label>Market Tax %<input id="tax" type="number" min="0" step="0.1" value="8"></label>
    </div>
-   <h3>المواد</h3><div id="materials"></div>
-   <div class="actions"><button class="btn" id="addMaterial">＋ مادة</button><button class="btn primary" id="saveRun">📒 حفظ العملية</button><button class="btn" id="saveProduct">💾 حفظ كمنتج</button></div>
+   <h3 data-i18n="materialsTitle">المواد</h3>
+   <div class="matcols"><span data-i18n="colMat">المادة</span><span data-i18n="colQty">الكمية</span><span data-i18n="colPrice">السعر</span><span></span></div>
+   <div id="materials"></div>
+   <div class="actions"><button class="btn" id="addMaterial" data-i18n="addMaterialBtn">＋ مادة</button><button class="btn primary" id="saveRun" data-i18n="saveRunBtn">📒 حفظ العملية</button><button class="btn" id="saveProduct" data-i18n="saveProductBtn">💾 حفظ كمنتج</button></div>
   </div>
   <div class="card">
-   <div class="eyebrow">RESULT</div><h2>النتيجة</h2>
-   <div class="resultline"><span>تكلفة المواد قبل Return</span><strong id="before">0</strong></div>
-   <div class="resultline"><span>قيمة المواد بعد Return</span><strong id="after">0</strong></div>
-   <div class="resultline"><span>رسوم التصنيع</span><strong id="craftFeeTotal">0</strong></div>
-   <div class="resultline"><span>إجمالي التكلفة</span><strong id="cost">0</strong></div>
-   <div class="resultline"><span>صافي المبيعات بعد الضريبة</span><strong id="revenue">0</strong></div>
-   <div class="resultline"><span>الضريبة</span><strong id="taxValue">0</strong></div>
-   <div class="resultline"><span>الربح</span><strong id="profit" class="profit">0</strong></div>
-   <div class="stats"><div class="stat"><span>ربح/قطعة</span><strong id="profitEach">0</strong></div><div class="stat"><span>Margin</span><strong id="margin">0%</strong></div><div class="stat"><span>ROI</span><strong id="roi">0%</strong></div><div class="stat"><span>Break-even</span><strong id="breakEven">0</strong></div></div>
-   <div class="notice">Return Rate هنا يُعامل كـ RRR فعلي: إذا كانت 15.3% فالحاسبة تخصم 15.3% من تكلفة المواد المؤهلة. يمكن تعديل الرقم حسب مكان التصنيع والبونص والـFocus.</div>
+   <div class="eyebrow">RESULT</div><h2 data-i18n="resultTitle">النتيجة</h2>
+   <div class="resultline"><span data-i18n="rlBefore">تكلفة المواد قبل Return</span><strong id="before">0</strong></div>
+   <div class="resultline"><span data-i18n="rlAfter">قيمة المواد بعد Return</span><strong id="after">0</strong></div>
+   <div class="resultline"><span data-i18n="rlFee">رسوم التصنيع</span><strong id="craftFeeTotal">0</strong></div>
+   <div class="resultline"><span data-i18n="rlCost">إجمالي التكلفة</span><strong id="cost">0</strong></div>
+   <div class="resultline"><span data-i18n="rlRevenue">صافي المبيعات بعد الضريبة</span><strong id="revenue">0</strong></div>
+   <div class="resultline"><span data-i18n="rlTax">الضريبة</span><strong id="taxValue">0</strong></div>
+   <div class="resultline"><span data-i18n="rlProfit">الربح</span><strong id="profit" class="profit">0</strong></div>
+   <div class="stats"><div class="stat"><span data-i18n="statProfitEach">ربح/قطعة</span><strong id="profitEach">0</strong></div><div class="stat"><span>Margin</span><strong id="margin">0%</strong></div><div class="stat"><span>ROI</span><strong id="roi">0%</strong></div><div class="stat"><span>Break-even</span><strong id="breakEven">0</strong></div></div>
+   <div class="notice" data-i18n="noticeCraft">Return Rate هنا يُعامل كـ RRR فعلي: إذا كانت 15.3% فالحاسبة تخصم 15.3% من تكلفة المواد المؤهلة. يمكن تعديل الرقم حسب مكان التصنيع والبونص والـFocus.</div>
   </div>
  </div>
 </section>
 
 <section class="panel" id="recipes">
- <div class="card"><div class="head"><div><div class="eyebrow">RECIPE BOOK</div><h2>📜 الوصفات</h2><p class="muted">احفظ وصفاتك بنفسك؛ ما رح أفترض Recipe قديمة أو غير مؤكدة.</p></div><button class="btn" id="newRecipe">وصفة جديدة</button></div>
+ <div class="card"><div class="head"><div><div class="eyebrow">RECIPE BOOK</div><h2 data-i18n="recipesTitle">📜 الوصفات</h2><p class="muted" data-i18n="recipesDesc">احفظ وصفاتك بنفسك؛ ما رح أفترض Recipe قديمة أو غير مؤكدة.</p></div><button class="btn" id="newRecipe" data-i18n="newRecipeBtn">وصفة جديدة</button></div>
  <div class="grid"><div>
-  <label>اسم المنتج<input id="rName" placeholder="T5 Bag"></label><label>Tier / Enchant<input id="rTier" placeholder="T5 .1"></label><label>سعر البيع المتوقع<input id="rSell" type="number" min="0" value="0"></label>
- </div><div><h3>المواد</h3><div id="rMaterials"></div><button class="btn" id="rAdd">＋ مادة</button><button class="btn primary" id="rSave">💾 حفظ الوصفة</button></div></div>
+  <label><span data-i18n="lblProduct">اسم المنتج</span><input id="rName" placeholder="T5 Bag"></label><label>Tier / Enchant<input id="rTier" placeholder="T5 .1"></label><label><span data-i18n="lblRSell">سعر البيع المتوقع</span><input id="rSell" type="number" min="0" value="0"></label>
+ </div><div><h3 data-i18n="materialsTitle">المواد</h3>
+  <div class="matcols"><span data-i18n="colMat">المادة</span><span data-i18n="colQty">الكمية</span><span data-i18n="colPrice">السعر</span><span></span></div>
+  <div id="rMaterials"></div><button class="btn" id="rAdd" data-i18n="addMaterialBtn">＋ مادة</button><button class="btn primary" id="rSave" data-i18n="rSaveBtn">💾 حفظ الوصفة</button></div></div>
  </div>
- <div class="card"><h3>الوصفات المحفوظة</h3><div id="recipeList"></div></div>
+ <div class="card"><h3 data-i18n="savedRecipesTitle">الوصفات المحفوظة</h3><div id="recipeList"></div></div>
 </section>
 
 <section class="panel" id="focus">
- <div class="card"><div class="head"><div><div class="eyebrow">FOCUS VALUE</div><h2>🔥 قيمة الـFocus</h2><p class="muted">أدخل RRR الحقيقي الظاهر لك في اللعبة مع وبدون Focus.</p></div></div>
+ <div class="card"><div class="head"><div><div class="eyebrow">FOCUS VALUE</div><h2>🔥 <span data-i18n="focusTitle">قيمة الـFocus</span></h2><p class="muted" data-i18n="focusDesc">أدخل RRR الحقيقي الظاهر لك في اللعبة مع وبدون Focus.</p></div></div>
  <div class="grid"><div>
-  <div class="grid3"><label>القطع<input id="fQty" type="number" min="1" value="1"></label><label>مواد/قطعة<input id="fMat" type="number" min="0" value="0"></label><label>RRR بدون Focus %<input id="fBase" type="number" min="0" max="100" step=".1" value="15.3"></label><label>RRR مع Focus %<input id="fWith" type="number" min="0" max="100" step=".1" value="43.5"></label><label>Focus/قطعة<input id="fCost" type="number" min="0" value="0"></label><label>سعر قيمة المادة<input id="fPrice" type="number" min="0" value="0"></label></div>
+  <div class="grid3"><label><span data-i18n="lblFQty">القطع</span><input id="fQty" type="number" min="1" value="1"></label><label><span data-i18n="lblFMat">مواد/قطعة</span><input id="fMat" type="number" min="0" value="0"></label><label>RRR <span data-i18n="withoutFocus">بدون Focus</span> %<input id="fBase" type="number" min="0" max="100" step=".1" value="15.3"></label><label>RRR <span data-i18n="withFocus">مع Focus</span> %<input id="fWith" type="number" min="0" max="100" step=".1" value="43.5"></label><label>Focus/<span data-i18n="perPiece">قطعة</span><input id="fCost" type="number" min="0" value="0"></label><label><span data-i18n="lblFPrice">سعر قيمة المادة</span><input id="fPrice" type="number" min="0" value="0"></label></div>
  </div><div class="card">
-  <div class="resultline"><span>المواد الإضافية من Focus</span><strong id="fExtra">0</strong></div><div class="resultline"><span>قيمة المواد الإضافية</span><strong id="fValue">0</strong></div><div class="resultline"><span>إجمالي Focus</span><strong id="fTotal">0</strong></div><div class="resultline"><span>قيمة 1,000 Focus</span><strong id="f1000">0</strong></div>
+  <div class="resultline"><span data-i18n="rlFExtra">المواد الإضافية من Focus</span><strong id="fExtra">0</strong></div><div class="resultline"><span data-i18n="rlFValue">قيمة المواد الإضافية</span><strong id="fValue">0</strong></div><div class="resultline"><span data-i18n="rlFTotal">إجمالي Focus</span><strong id="fTotal">0</strong></div><div class="resultline"><span data-i18n="rlF1000">قيمة 1,000 Focus</span><strong id="f1000">0</strong></div>
  </div></div>
- <div class="notice">Focus يزيد Resource Return Rate. مقدار الـFocus المطلوب لكل craft ليس رقمًا ثابتًا لكل المنتجات، لذلك هذه الحاسبة تطلبه منك بدل اختراع قيمة. Focus يعاد شحنه بواقع 10,000 يوميًا مع Premium وفق دليل Albion الرسمي.</div>
+ <div class="notice" data-i18n="noticeFocus">Focus يزيد Resource Return Rate. مقدار الـFocus المطلوب لكل craft ليس رقمًا ثابتًا لكل المنتجات، لذلك هذه الحاسبة تطلبه منك بدل اختراع قيمة. Focus يعاد شحنه بواقع 10,000 يوميًا مع Premium وفق دليل Albion الرسمي.</div>
  </div>
 </section>
 
 <section class="panel" id="compare">
- <div class="card"><div class="eyebrow">BUY VS CRAFT</div><h2>⚖️ شراء أم تصنيع</h2>
+ <div class="card"><div class="eyebrow">BUY VS CRAFT</div><h2 data-i18n="compareTitle">⚖️ شراء أم تصنيع</h2>
  <div class="grid"><div class="grid3">
-  <label>سعر المنتج الجاهز<input id="bBuy" type="number" min="0" value="0"></label><label>سعر البيع<input id="bSell" type="number" min="0" value="0"></label><label>RRR %<input id="bRrr" type="number" min="0" max="100" step=".1" value="15.3"></label><label>مواد/قطعة<input id="bMat" type="number" min="0" value="0"></label><label>Crafting Fee<input id="bFee" type="number" min="0" value="0"></label><label>Tax %<input id="bTax" type="number" min="0" value="8"></label>
- </div><div class="card"><div class="resultline"><span>تكلفة التصنيع</span><strong id="bCraftCost">0</strong></div><div class="resultline"><span>ربح التصنيع</span><strong id="bCraftProfit">0</strong></div><div class="resultline"><span>ربح الشراء والبيع</span><strong id="bBuyProfit">0</strong></div><div class="resultline"><span>الفرق</span><strong id="bDiff">0</strong></div><p id="bMsg" class="notice">أدخل الأسعار.</p></div></div>
+  <label><span data-i18n="lblBBuy">سعر المنتج الجاهز</span><input id="bBuy" type="number" min="0" value="0"></label><label><span data-i18n="lblSell">سعر البيع</span><input id="bSell" type="number" min="0" value="0"></label><label>RRR %<input id="bRrr" type="number" min="0" max="100" step=".1" value="15.3"></label><label><span data-i18n="lblFMat">مواد/قطعة</span><input id="bMat" type="number" min="0" value="0"></label><label>Crafting Fee<input id="bFee" type="number" min="0" value="0"></label><label>Tax %<input id="bTax" type="number" min="0" value="8"></label>
+ </div><div class="card"><div class="resultline"><span data-i18n="rlBCraftCost">تكلفة التصنيع</span><strong id="bCraftCost">0</strong></div><div class="resultline"><span data-i18n="rlBCraftProfit">ربح التصنيع</span><strong id="bCraftProfit">0</strong></div><div class="resultline"><span data-i18n="rlBBuyProfit">ربح الشراء والبيع</span><strong id="bBuyProfit">0</strong></div><div class="resultline"><span data-i18n="rlBDiff">الفرق</span><strong id="bDiff">0</strong></div><p id="bMsg" class="notice" data-i18n="bMsgDefault">أدخل الأسعار.</p></div></div>
  </div>
 </section>
 
 <section class="panel" id="ledger">
- <div class="card"><div class="head"><div><div class="eyebrow">PROFIT LEDGER</div><h2>📒 دفتر الأرباح</h2></div><button class="btn danger" id="clearLedger">مسح</button></div>
- <div class="stats"><div class="stat"><span>العمليات</span><strong id="lCount">0</strong></div><div class="stat"><span>إجمالي الربح</span><strong id="lProfit">0</strong></div><div class="stat"><span>متوسط العملية</span><strong id="lAvg">0</strong></div><div class="stat"><span>أفضل عملية</span><strong id="lBest">0</strong></div></div>
- <div class="tablewrap"><table class="table"><thead><tr><th>التاريخ</th><th>المنتج</th><th>الكمية</th><th>التكلفة</th><th>الإيراد</th><th>الربح</th><th></th></tr></thead><tbody id="ledgerRows"></tbody></table></div>
+ <div class="card"><div class="head"><div><div class="eyebrow">PROFIT LEDGER</div><h2 data-i18n="ledgerTitle">📒 دفتر الأرباح</h2></div><button class="btn danger" id="clearLedger" data-i18n="clearBtn">مسح</button></div>
+ <div class="stats"><div class="stat"><span data-i18n="statCount">العمليات</span><strong id="lCount">0</strong></div><div class="stat"><span data-i18n="statTotalProfit">إجمالي الربح</span><strong id="lProfit">0</strong></div><div class="stat"><span data-i18n="statAvg">متوسط العملية</span><strong id="lAvg">0</strong></div><div class="stat"><span data-i18n="statBest">أفضل عملية</span><strong id="lBest">0</strong></div></div>
+ <div class="tablewrap"><table class="table"><thead><tr><th data-i18n="thDate">التاريخ</th><th data-i18n="thProductName">المنتج</th><th data-i18n="thQty">الكمية</th><th data-i18n="thCost">التكلفة</th><th data-i18n="thRevenue">الإيراد</th><th data-i18n="thProfit">الربح</th><th></th></tr></thead><tbody id="ledgerRows"></tbody></table></div>
  </div>
 </section>
 
 <section class="panel" id="prices">
- <div class="card"><div class="head"><div><div class="eyebrow">PRICE MEMORY</div><h2>📊 ذاكرة الأسعار</h2><p class="muted">كل تغيير بالسعر يُحفظ بتاريخ ووقت.</p></div><button class="btn danger" id="clearPrices">مسح السجل</button></div>
- <input id="priceSearch" placeholder="ابحث عن مادة..."><div class="tablewrap" style="margin-top:10px"><table class="table"><thead><tr><th>المادة</th><th>السعر</th><th>آخر تحديث</th></tr></thead><tbody id="priceRows"></tbody></table></div>
+ <div class="card"><div class="head"><div><div class="eyebrow">PRICE MEMORY</div><h2 data-i18n="pricesTitle">📊 ذاكرة الأسعار</h2><p class="muted" data-i18n="pricesDesc">كل تغيير بالسعر يُحفظ بتاريخ ووقت.</p></div><button class="btn danger" id="clearPrices" data-i18n="clearHistoryBtn">مسح السجل</button></div>
+ <input id="priceSearch" placeholder="ابحث عن مادة..." data-i18n-ph="phSearch"><div class="tablewrap" style="margin-top:10px"><table class="table"><thead><tr><th data-i18n="colMat">المادة</th><th data-i18n="colPrice">السعر</th><th data-i18n="thUpdated">آخر تحديث</th></tr></thead><tbody id="priceRows"></tbody></table></div>
  </div>
  <div class="card"><canvas id="chart"></canvas></div>
 </section>
 
 <section class="panel" id="tools">
  <div class="toolgrid">
-  <div class="card tool"><h3>🧠 الذاكرة</h3><p class="muted">البيانات محفوظة داخل المتصفح.</p><button class="btn" id="export">تصدير Backup</button> <label class="btn" style="display:inline-flex">استيراد<input id="import" type="file" accept=".json" hidden></label><button class="btn danger" id="clearAll">حذف كل البيانات</button></div>
-  <div class="card tool"><h3>💰 نقطة التعادل</h3><p class="muted">في التصنيع الأساسي: سعر التعادل = التكلفة / عدد القطع بعد اعتبار الضريبة.</p><button class="btn" id="toCraft">فتح الحاسبة</button></div>
-  <div class="card tool"><h3>📱 مناسب للهاتف</h3><p class="muted">الملف مستقل ولا يحتاج إنترنت، والبيانات تبقى في المتصفح الذي تستخدمه لفتح الملف.</p></div>
+  <div class="card tool"><h3 data-i18n="toolsMemTitle">🧠 الذاكرة</h3><p class="muted" data-i18n="toolsMemDesc">البيانات محفوظة داخل المتصفح.</p><button class="btn" id="export" data-i18n="exportBtn">تصدير Backup</button> <label class="btn" style="display:inline-flex"><span data-i18n="importBtn">استيراد</span><input id="import" type="file" accept=".json" hidden></label><button class="btn danger" id="clearAll" data-i18n="clearAllBtn">حذف كل البيانات</button></div>
+  <div class="card tool"><h3 data-i18n="toolsBeTitle">💰 نقطة التعادل</h3><p class="muted" data-i18n="toolsBeDesc">في التصنيع الأساسي: سعر التعادل = التكلفة / عدد القطع بعد اعتبار الضريبة.</p><button class="btn" id="toCraft" data-i18n="openCalcBtn">فتح الحاسبة</button></div>
+  <div class="card tool"><h3 data-i18n="toolsMobileTitle">📱 مناسب للهاتف</h3><p class="muted" data-i18n="toolsMobileDesc">الملف مستقل ولا يحتاج إنترنت، والبيانات تبقى في المتصفح الذي تستخدمه لفتح الملف.</p></div>
+ </div>
+</section>
+
+<section class="panel" id="cities">
+ <div class="card"><div class="eyebrow">CITY BONUSES</div><h2 data-i18n="citiesTitle">🏰 بونص المدن الثابت</h2>
+  <p class="notice" data-i18n="citiesIntro">كل مدينة عندها بونص إنتاج أساسي ثابت +18% للتصنيع والتكرير لا يتغير أبدًا. المدن الملكية الخمس عندها كمان تخصص إضافي +15% تصنيع أو +40% تكرير لمجموعة أغراض معينة فقط. Caerleon وBrecilien ما عندهن بونص تكرير، بس عندهن تخصصات تصنيع خاصة.</p>
+  <div id="cityGrid" class="citygrid"></div>
+  <p class="small" style="margin-top:10px" data-i18n="citiesSource">المصدر: ويكي Albion Online الرسمية (Resource Return Rate / Local Production Bonus).</p>
  </div>
 </section>
 </main>
@@ -137,105 +181,4 @@ canvas{width:100%;height:230px;background:#0c0a07;border-radius:10px;border:1px 
 "use strict";
 const KEY="albionCraftingV3Fixed";
 const oldKey="albionCraftingMemoryV3";
-let D=JSON.parse(localStorage.getItem(KEY)||'{"materials":{},"recipes":[],"ledger":[],"history":{},"settings":{}}');
-const $=id=>document.getElementById(id), N=v=>Number(v)||0, F=v=>Math.round(N(v)).toLocaleString();
-const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]));
-function save(){localStorage.setItem(KEY,JSON.stringify(D));}
-function migrate(){
- try{
-  const x=JSON.parse(localStorage.getItem(oldKey)||"null");
-  if(x?.materials) Object.values(x.materials).forEach(m=>{if(m?.name&&N(m.price))D.materials[m.name.toLowerCase()]={name:m.name,price:N(m.price),updated:Date.now()}});
- }catch(e){}
- save();
-}
-migrate();
-
-function tabs(){
- document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{
-  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");
-  document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("active",p.id===b.dataset.tab));
-  localStorage.setItem("albionV3Tab",b.dataset.tab);
-  if(b.dataset.tab==="ledger")renderLedger(); if(b.dataset.tab==="prices")renderPrices();
- });
- const t=localStorage.getItem("albionV3Tab");if(t)document.querySelector(`.tab[data-tab="${t}"]`)?.click();
-} tabs();
-
-function addMaterial(name="",qty=1,price=0){
- const r=document.createElement("div");r.className="material";
- r.innerHTML=`<input class="m-name" list="materialNames" placeholder="المادة" value="${esc(name)}"><input class="m-qty" type="number" min="0" step=".01" value="${qty}"><input class="m-price" type="number" min="0" step=".01" value="${price}"><button class="btn danger m-del">×</button>`;
- r.querySelector(".m-del").onclick=()=>{r.remove();calc()};
- r.querySelector(".m-name").onchange=()=>{const k=r.querySelector(".m-name").value.trim().toLowerCase(),m=D.materials[k];if(m&&!N(r.querySelector(".m-price").value))r.querySelector(".m-price").value=m.price;calc()};
- r.querySelector(".m-price").onchange=()=>rememberMaterial(r);
- r.querySelectorAll("input").forEach(i=>i.oninput=()=>calc());
- $("materials").appendChild(r);
-}
-function rememberMaterial(r){
- const name=r.querySelector(".m-name").value.trim(),price=N(r.querySelector(".m-price").value);if(!name||!price)return;
- const k=name.toLowerCase(),last=D.materials[k];
- D.materials[k]={name,price,updated:Date.now()};
- if(!D.history[k])D.history[k]=[];
- const h=D.history[k],prev=h[h.length-1];if(!prev||N(prev.price)!==price)h.push({price,date:Date.now()});D.history[k]=h.slice(-100);
- save();refreshLists();
-}
-function rememberAll(){document.querySelectorAll(".material").forEach(rememberMaterial)}
-function refreshLists(){
- $("materialNames").innerHTML=Object.values(D.materials).sort((a,b)=>b.updated-a.updated).slice(0,200).map(x=>`<option value="${esc(x.name)}">`).join("");
- $("productList").innerHTML=D.recipes.map(r=>`<option value="${esc(r.name)}">`).join("");
-}
-function calc(){
- const batch=Math.max(1,N($("batch").value)),rrr=Math.max(0,N($("rrr").value))/100,fee=N($("fee").value),sell=N($("sell").value),tax=Math.max(0,N($("tax").value))/100;
- let before=0;document.querySelectorAll(".material").forEach(r=>before+=N(r.querySelector(".m-qty").value)*N(r.querySelector(".m-price").value)*batch);
- const after=before*(1-rrr),feeTotal=fee*batch,cost=after+feeTotal,gross=sell*batch,net=gross*(1-tax),taxValue=gross-net,profit=net-cost;
- const margin=net?profit/net*100:0,roi=cost?profit/cost*100:0,be=(batch&&1-tax>0)?cost/batch/(1-tax):0;
- $("before").textContent=F(before);$("after").textContent=F(after);$("craftFeeTotal").textContent=F(feeTotal);$("cost").textContent=F(cost);$("revenue").textContent=F(net);$("taxValue").textContent=F(taxValue);$("profit").textContent=F(profit);$("profitEach").textContent=F(profit/batch);$("margin").textContent=margin.toFixed(1)+"%";$("roi").textContent=roi.toFixed(1)+"%";$("breakEven").textContent=be.toFixed(2);
- D.settings={product:$("product").value,batch:$("batch").value,sell:$("sell").value,rrr:$("rrr").value,fee:$("fee").value,tax:$("tax").value};save();
-}
-$("addMaterial").onclick=()=>addMaterial();["product","batch","sell","rrr","fee","tax"].forEach(id=>$(id).oninput=calc);
-$("resetCraft").onclick=()=>{["product"].forEach(id=>$(id).value="");$("batch").value=1;$("sell").value=0;$("rrr").value=15.3;$("fee").value=0;$("tax").value=8;$("materials").innerHTML="";addMaterial();calc()};
-function restore(){const s=D.settings||{};["product","batch","sell","rrr","fee","tax"].forEach(id=>{if(s[id]!=null)$(id).value=s[id]});$("materials").innerHTML="";addMaterial();calc()} restore();
-
-$("saveProduct").onclick=()=>{
- const name=$("product").value.trim();if(!name){alert("اكتب اسم المنتج.");return}
- const mats=[...document.querySelectorAll(".material")].map(r=>({name:r.querySelector(".m-name").value.trim(),qty:N(r.querySelector(".m-qty").value),price:N(r.querySelector(".m-price").value)})).filter(x=>x.name&&x.qty);
- if(!mats.length){alert("أضف مادة واحدة على الأقل.");return}
- D.recipes=[{id:Date.now(),name,sell:N($("sell").value),tier:"",materials:mats},...D.recipes.filter(r=>r.name.toLowerCase()!==name.toLowerCase())];rememberAll();save();refreshLists();renderRecipes();alert("تم حفظ المنتج كوصفة.");
-};
-$("saveRun").onclick=()=>{
- rememberAll();const batch=Math.max(1,N($("batch").value)),profitText=$("profit").textContent.replace(/,/g,""),costText=$("cost").textContent.replace(/,/g,""),revText=$("revenue").textContent.replace(/,/g,"");
- D.ledger.unshift({date:Date.now(),product:$("product").value.trim()||"عملية تصنيع",batch,cost:N(costText),revenue:N(revText),profit:N(profitText)});D.ledger=D.ledger.slice(0,200);save();renderLedger();alert("تم حفظ العملية في دفتر الأرباح.");
-};
-
-function rMat(data={}){const d=document.createElement("div");d.className="material rmat";d.innerHTML=`<input class="rn" placeholder="المادة" value="${esc(data.name||"")}"><input class="rq" type="number" min="0" step=".01" value="${data.qty??1}"><input class="rp" type="number" min="0" step=".01" value="${data.price??0}"><button class="btn danger">×</button>`;d.querySelector("button").onclick=()=>d.remove();$("rMaterials").appendChild(d)}
-function renderRecipes(){const box=$("recipeList");box.innerHTML=D.recipes.length?D.recipes.map((r,i)=>`<div class="recipe"><div><strong>${esc(r.name)}</strong><div class="small">${r.materials.length} مواد · سعر بيع ${F(r.sell)}</div></div><div><button class="btn" data-use="${i}">استخدم</button> <button class="btn" data-edit="${i}">تعديل</button> <button class="btn danger" data-del="${i}">×</button></div></div>`).join(""):"<div class='muted'>لا توجد وصفات.</div>";
- box.querySelectorAll("[data-use]").forEach(b=>b.onclick=()=>useRecipe(D.recipes[+b.dataset.use]));
- box.querySelectorAll("[data-edit]").forEach(b=>b.onclick=()=>editRecipe(D.recipes[+b.dataset.edit]));
- box.querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{D.recipes.splice(+b.dataset.del,1);save();refreshLists();renderRecipes()});
-}
-function useRecipe(r){$("product").value=r.name;$("sell").value=r.sell||0;$("materials").innerHTML="";r.materials.forEach(m=>addMaterial(m.name,m.qty,m.price));calc();document.querySelector('[data-tab="craft"]').click()}
-function editRecipe(r){$("rName").value=r.name;$("rSell").value=r.sell||0;$("rTier").value=r.tier||"";$("rMaterials").innerHTML="";r.materials.forEach(rMat);document.querySelector('[data-tab="recipes"]').click()}
-$("rAdd").onclick=()=>rMat();$("newRecipe").onclick=()=>{$("rName").value="";$("rTier").value="";$("rSell").value=0;$("rMaterials").innerHTML="";rMat()};$("rSave").onclick=()=>{
- const name=$("rName").value.trim();if(!name){alert("اكتب اسم الوصفة.");return}const mats=[...document.querySelectorAll(".rmat")].map(r=>({name:r.querySelector(".rn").value.trim(),qty:N(r.querySelector(".rq").value),price:N(r.querySelector(".rp").value)})).filter(x=>x.name&&x.qty);
- if(!mats.length){alert("أضف مواد.");return}D.recipes=[{id:Date.now(),name,tier:$("rTier").value,sell:N($("rSell").value),materials:mats},...D.recipes.filter(r=>r.name.toLowerCase()!==name.toLowerCase())];save();refreshLists();renderRecipes();alert("تم حفظ الوصفة.")};renderRecipes();
-
-function focusCalc(){const q=Math.max(1,N($("fQty").value)),mat=N($("fMat").value),a=N($("fBase").value)/100,b=N($("fWith").value)/100,fc=N($("fCost").value),price=N($("fPrice").value),extra=q*mat*(b-a),value=extra*price,total=q*fc;$("fExtra").textContent=F(extra);$("fValue").textContent=F(value);$("fTotal").textContent=F(total);$("f1000").textContent=total?F(value/total*1000):"0"}
-["fQty","fMat","fBase","fWith","fCost","fPrice"].forEach(id=>$(id).oninput=focusCalc);focusCalc();
-
-function compare(){const buy=N($("bBuy").value),sell=N($("bSell").value),rrr=N($("bRrr").value)/100,mat=N($("bMat").value),fee=N($("bFee").value),tax=N($("bTax").value)/100,craft=mat*(1-rrr)+fee,cp=sell*(1-tax)-craft,bp=sell*(1-tax)-buy,d=cp-bp;$("bCraftCost").textContent=F(craft);$("bCraftProfit").textContent=F(cp);$("bBuyProfit").textContent=F(bp);$("bDiff").textContent=F(d);$("bMsg").innerHTML=d>0?`التصنيع أعلى ربحًا بـ <b>${F(d)}</b> Silver/قطعة.`:d<0?`الشراء ثم البيع أعلى ربحًا بـ <b>${F(-d)}</b> Silver/قطعة.`:"الطريقتان متساويتان تقريبًا."}
-["bBuy","bSell","bRrr","bMat","bFee","bTax"].forEach(id=>$(id).oninput=compare);compare();
-
-function renderLedger(){const l=D.ledger,rows=$("ledgerRows");$("lCount").textContent=l.length;const total=l.reduce((a,x)=>a+N(x.profit),0);$("lProfit").textContent=F(total);$("lAvg").textContent=F(l.length?total/l.length:0);$("lBest").textContent=F(l.length?Math.max(...l.map(x=>N(x.profit))):0);rows.innerHTML=l.length?l.map((x,i)=>`<tr><td>${new Date(x.date).toLocaleString("ar")}</td><td>${esc(x.product)}</td><td>${F(x.batch)}</td><td>${F(x.cost)}</td><td>${F(x.revenue)}</td><td>${F(x.profit)}</td><td><button class="btn danger" data-ld="${i}">×</button></td></tr>`).join(""):"<tr><td colspan='7' class='muted'>لا توجد عمليات.</td></tr>";rows.querySelectorAll("[data-ld]").forEach(b=>b.onclick=()=>{D.ledger.splice(+b.dataset.ld,1);save();renderLedger()})}
-$("clearLedger").onclick=()=>{if(confirm("مسح دفتر الأرباح؟")){D.ledger=[];save();renderLedger()}};renderLedger();
-
-function renderPrices(){const q=$("priceSearch").value.trim().toLowerCase(),arr=Object.values(D.materials).filter(x=>!q||x.name.toLowerCase().includes(q)).sort((a,b)=>b.updated-a.updated),rows=$("priceRows");rows.innerHTML=arr.length?arr.map(x=>`<tr><td>${esc(x.name)}</td><td>${F(x.price)}</td><td>${new Date(x.updated).toLocaleString("ar")}</td></tr>`).join(""):"<tr><td colspan='3' class='muted'>لا توجد أسعار محفوظة.</td></tr>";drawChart()}
-$("priceSearch").oninput=renderPrices;$("clearPrices").onclick=()=>{if(confirm("مسح سجل الأسعار؟")){D.history={};save();renderPrices()}}
-function drawChart(){const c=$("chart"),ctx=c.getContext("2d"),d=devicePixelRatio||1,w=c.clientWidth*d,h=c.clientHeight*d;c.width=w;c.height=h;ctx.clearRect(0,0,w,h);const points=Object.values(D.history).flat().sort((a,b)=>a.date-b.date).slice(-40);if(points.length<2){ctx.fillStyle="#8f8573";ctx.font=14*d+"px sans-serif";ctx.fillText("غيّر سعر مادة أكثر من مرة لعرض الرسم البياني",20*d,35*d);return}const vals=points.map(x=>x.price),mn=Math.min(...vals),mx=Math.max(...vals);ctx.strokeStyle="#d2a24d";ctx.lineWidth=2*d;ctx.beginPath();points.forEach((p,i)=>{const x=20*d+i*(w-40*d)/(points.length-1),y=h-20*d-(p.price-mn)/(mx-mn||1)*(h-40*d);i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke()}
-renderPrices();
-
-$("export").onclick=()=>{const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(D,null,2)],{type:"application/json"}));a.download="albion-crafting-v3-backup.json";a.click()};
-$("import").onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const x=JSON.parse(await f.text());D={materials:x.materials||{},recipes:x.recipes||[],ledger:x.ledger||[],history:x.history||{},settings:x.settings||{}};save();location.reload()}catch(err){alert("ملف النسخة الاحتياطية غير صالح.")}};
-$("clearAll").onclick=()=>{if(confirm("سيتم حذف كل الوصفات والأسعار والأرباح والإعدادات. هل أنت متأكد؟")){localStorage.removeItem(KEY);location.reload()}};
-$("toCraft").onclick=()=>document.querySelector('[data-tab="craft"]').click();
-refreshLists();renderPrices();
-})();
-</script>
-</body></html>
+let D=JSON.parse(localStorage.getItem(KEY)||'{"materials":{},
